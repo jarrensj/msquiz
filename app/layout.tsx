@@ -20,7 +20,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body className="flex min-h-screen flex-col">
+        {children}
+        <footer className="px-4 py-4 text-center text-sm">
+          This is a fan-made site and is not affiliated with or endorsed by
+          Nexon. MapleStory and all related names, characters, and monsters are
+          trademarks or copyrights of Nexon.
+        </footer>
+      </body>
     </html>
   );
 }
