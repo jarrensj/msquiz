@@ -8,6 +8,7 @@ export default function Home() {
         question="How much EXP does a Green Slime give?"
         answer={12}
         unit="EXP"
+        options={[8, 10, 12, 14, 15]}
       />
     </main>
   );
