@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               privacy policy noting that visitors' browsers request them from
               that third-party site. */}
           <p>
-            Item icons and game data from{" "}
+            Item icons from{" "}
             <a href="https://maplestory.io/" className="underline">
               maplestory.io
             </a>
