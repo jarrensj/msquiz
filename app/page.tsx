@@ -1,7 +1,15 @@
+import Question from "./question";
+
 export default function Home() {
   return (
-    <main className="flex flex-1 items-center justify-center">
+    <main className="flex flex-1 flex-col items-center justify-center gap-4">
       <h1>msquiz</h1>
+      <Question
+        question="How much EXP does a Green Slime give?"
+        answer={12}
+        unit="EXP"
+        options={[8, 10, 12, 14, 15]}
+      />
     </main>
   );
 }
