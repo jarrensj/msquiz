@@ -33,32 +33,45 @@ const questions = [
 // TODO: Add the remaining questions and turn the answers into a job result.
 // Only use what we know from playing the game. Don't scrape any sites.
 export default function JobQuiz() {
+  const [queue, setQueue] = useState(questions);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const finished = questions.every(({ prompt }) => answers[prompt]);
+  const [current, ...rest] = queue;
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {questions.map(({ prompt, choices }) => (
-        <fieldset key={prompt} className="flex flex-col items-center gap-2">
-          <legend className="text-center">{prompt}</legend>
+    <div aria-live="polite" className="flex flex-col items-center gap-2">
+      {current ? (
+        <fieldset className="flex flex-col items-center gap-2">
+          <legend className="text-center">{current.prompt}</legend>
           <div className="flex flex-wrap justify-center gap-3">
-            {choices.map((choice) => (
+            {current.choices.map((choice, index) => (
+              // Keyed by position so keyboard focus survives to the next question.
               <button
-                key={choice}
+                key={index}
                 type="button"
-                aria-pressed={answers[prompt] === choice}
-                onClick={() => setAnswers({ ...answers, [prompt]: choice })}
-                className="border px-2 aria-pressed:bg-foreground aria-pressed:text-background"
+                onClick={() => {
+                  setAnswers({ ...answers, [current.prompt]: choice });
+                  setQueue(rest);
+                }}
+                className="border px-2"
               >
                 {choice}
               </button>
             ))}
           </div>
+          {/* Hidden rather than removed so the choices don't jump on the last question. */}
+          <button
+            type="button"
+            onClick={() => setQueue([...rest, current])}
+            className={`underline ${rest.length === 0 ? "invisible" : ""}`}
+          >
+            Ask me later
+          </button>
         </fieldset>
-      ))}
-      <p aria-live="polite" className="min-h-12 text-center">
-        {finished && "That's all for now. Job suggestions coming soon."}
-      </p>
+      ) : (
+        <p className="text-center">
+          That&apos;s all for now. Job suggestions coming soon.
+        </p>
+      )}
     </div>
   );
 }
