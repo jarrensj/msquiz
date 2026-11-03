@@ -10,6 +10,12 @@ export default function Home() {
         unit="EXP"
         options={[8, 10, 12, 14, 15]}
       />
+      <Question
+        question="How much EXP does a Zombie Mushroom give?"
+        answer={45}
+        unit="EXP"
+        options={[35, 40, 41, 45, 50]}
+      />
     </main>
   );
 }
