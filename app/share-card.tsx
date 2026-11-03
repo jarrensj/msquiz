@@ -5,7 +5,6 @@ import { copyPngOrDownload, copyText } from "./clipboard";
 import { renderShareCardPng } from "./share-image";
 import {
   buildSharePayload,
-  formatQuestionLine,
   formatScoreCaption,
   type QuestionShareResult,
 } from "./share";
@@ -58,6 +57,7 @@ export default function ShareCard({
 }) {
   const url = useSiteUrl();
   const payload = buildSharePayload({ quizName, quizTitle, questions, url });
+  const missed = payload.questions.filter((question) => !question.correct);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [busy, setBusy] = useState(false);
   const message = noticeMessage(notice);
@@ -108,8 +108,10 @@ export default function ShareCard({
 
   return (
     <section
+      data-quiz-results
+      tabIndex={-1}
       aria-label="Quiz results"
-      className="flex flex-col items-center gap-2 border px-4 py-3 text-center"
+      className="flex w-full flex-col items-center gap-3 border px-4 py-4 text-center outline-offset-4"
     >
       <h2 className="text-lg">{payload.quizName}</h2>
       <p>{payload.quizTitle}</p>
@@ -119,20 +121,38 @@ export default function ShareCard({
         </span>
         {formatScoreCaption()}
       </p>
-      <ul className="flex list-none flex-col gap-1 p-0">
-        {payload.questions.map((question) => (
-          <li key={question.id}>{formatQuestionLine(question)}</li>
-        ))}
-      </ul>
+      {missed.length === 0 ? (
+        <p>Every question correct.</p>
+      ) : (
+        <div className="flex w-full flex-col gap-2 text-left">
+          <h3 className="text-center font-medium">Missed</h3>
+          <ul className="flex list-none flex-col gap-2 p-0">
+            {missed.map((question) => (
+              <li key={question.id} className="flex flex-col gap-1 border px-3 py-2">
+                <p className="break-words">❌ {question.question}</p>
+                <p className="break-words">{question.answer}</p>
+                <a
+                  href={question.source}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-fit text-sm underline"
+                >
+                  Source
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {payload.url ? (
-        <a href={payload.url} className="max-w-sm break-all underline">
+        <a href={payload.url} className="max-w-full break-all underline">
           {payload.url}
         </a>
       ) : null}
       <div className="flex flex-wrap justify-center gap-2">
         <button
           type="button"
-          className="border px-2"
+          className="border px-3 py-2"
           onClick={onCopyText}
           disabled={busy}
         >
@@ -140,7 +160,7 @@ export default function ShareCard({
         </button>
         <button
           type="button"
-          className="border px-2"
+          className="border px-3 py-2"
           onClick={onCopyImage}
           disabled={busy}
         >
@@ -155,7 +175,7 @@ export default function ShareCard({
           readOnly
           value={payload.text}
           rows={Math.min(payload.text.split("\n").length, 12)}
-          className="w-full max-w-sm border p-2 text-left"
+          className="w-full border p-2 text-left break-words"
           aria-label="Results you can copy manually"
         />
       ) : null}

@@ -1,9 +1,9 @@
 export type QuestionShareResult = {
   id: string;
-  label: string;
-  answer: number;
-  unit: string;
-  correctOnFirstTry: boolean;
+  question: string;
+  answer: string;
+  correct: boolean;
+  source: string;
 };
 
 export type SharePayloadInput = {
@@ -19,7 +19,7 @@ export type SharePayload = SharePayloadInput & {
   text: string;
 };
 
-const scoreCaption = "correct on the first try";
+const scoreCaption = "correct";
 
 export function formatScoreCaption(): string {
   return scoreCaption;
@@ -29,21 +29,24 @@ export function formatScoreLine(score: number, total: number): string {
   return `${score}/${total} ${scoreCaption}`;
 }
 
-export function formatQuestionLine(question: QuestionShareResult): string {
-  const mark = question.correctOnFirstTry ? "✅" : "🔁";
-  const note = question.correctOnFirstTry ? "first try" : "retry";
-  return `${mark} ${question.label} — ${question.answer} ${question.unit} (${note})`;
-}
-
-export function formatShareText(
-  payload: Omit<SharePayload, "text">,
-): string {
+export function formatShareText(payload: Omit<SharePayload, "text">): string {
   const lines = [
     `${payload.quizName} · ${payload.quizTitle}`,
     formatScoreLine(payload.score, payload.total),
-    "",
-    ...payload.questions.map(formatQuestionLine),
   ];
+  const missed = payload.questions.filter((question) => !question.correct);
+
+  if (missed.length === 0) {
+    lines.push("", "Every question correct.");
+  } else {
+    lines.push("", "Missed");
+    missed.forEach((question, index) => {
+      if (index > 0) {
+        lines.push("");
+      }
+      lines.push(`❌ ${question.question}`, question.answer);
+    });
+  }
 
   if (payload.url) {
     lines.push("", payload.url);
@@ -57,9 +60,7 @@ export function formatShareText(
 // module so those buttons don't assemble their own copy.
 export function buildSharePayload(input: SharePayloadInput): SharePayload {
   const total = input.questions.length;
-  const score = input.questions.filter(
-    (question) => question.correctOnFirstTry,
-  ).length;
+  const score = input.questions.filter((question) => question.correct).length;
   const payload = { ...input, score, total };
 
   return { ...payload, text: formatShareText(payload) };

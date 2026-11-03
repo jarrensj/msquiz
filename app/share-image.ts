@@ -1,16 +1,12 @@
-import {
-  formatQuestionLine,
-  formatScoreCaption,
-  type SharePayload,
-} from "./share";
+import type { SharePayload } from "./share";
 
 const WIDTH = 720;
 const PADDING_X = 48;
 const PADDING_Y = 40;
 const SCALE = 2;
 
-// Drawn from the share payload so the image matches the copied text without a
-// DOM-screenshot dependency.
+// Drawn from `payload.text` so the image and the copied text stay the same
+// words, without a DOM-screenshot dependency.
 export function renderShareCardPng(payload: SharePayload): Promise<Blob> {
   const ready = document.fonts?.ready ?? Promise.resolve();
   return ready.then(() => drawShareCard(payload));
@@ -23,72 +19,55 @@ function fontStack(): string {
     : 'sans-serif, "Noto Color Emoji"';
 }
 
-type Line = {
+type DrawLine = {
   text: string;
   font: string;
   color: string;
+  align: CanvasTextAlign;
   lineHeight: number;
 };
 
 function drawShareCard(payload: SharePayload): Promise<Blob> {
   const stack = fontStack();
-  const nameFont = `600 32px ${stack}`;
+  const titleFont = `600 28px ${stack}`;
+  const scoreFont = `700 42px ${stack}`;
   const bodyFont = `18px ${stack}`;
-  const scoreFont = `700 56px ${stack}`;
   const maxTextWidth = WIDTH - PADDING_X * 2;
-
-  const lines: Line[] = [
-    {
-      text: payload.quizName,
-      font: nameFont,
-      color: "#171717",
-      lineHeight: 44,
-    },
-    {
-      text: payload.quizTitle,
-      font: bodyFont,
-      color: "#525252",
-      lineHeight: 32,
-    },
-    { text: "", font: bodyFont, color: "#171717", lineHeight: 20 },
-    {
-      text: `${payload.score}/${payload.total}`,
-      font: scoreFont,
-      color: "#171717",
-      lineHeight: 64,
-    },
-    {
-      text: formatScoreCaption(),
-      font: bodyFont,
-      color: "#171717",
-      lineHeight: 28,
-    },
-    { text: "", font: bodyFont, color: "#171717", lineHeight: 16 },
-    ...payload.questions.map((question) => ({
-      text: formatQuestionLine(question),
-      font: bodyFont,
-      color: "#171717",
-      lineHeight: 32,
-    })),
-  ];
-
-  if (payload.url) {
-    lines.push(
-      { text: "", font: bodyFont, color: "#171717", lineHeight: 16 },
-      {
-        text: payload.url,
-        font: bodyFont,
-        color: "#525252",
-        lineHeight: 28,
-      },
-    );
-  }
+  const sourceLines = payload.text.split("\n");
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) {
     return Promise.reject(new Error("canvas unavailable"));
   }
+
+  const lines: DrawLine[] = [];
+  sourceLines.forEach((text, index) => {
+    const isTitle = index === 0;
+    const isScore = index === 1;
+    const isUrl = text.length > 0 && text === payload.url;
+    const font = isTitle ? titleFont : isScore ? scoreFont : bodyFont;
+    const align: CanvasTextAlign = isTitle || isScore || isUrl ? "center" : "left";
+    const color = isUrl ? "#525252" : "#171717";
+    const lineHeight = text.length === 0 ? 14 : isScore ? 52 : isTitle ? 40 : 28;
+
+    if (!text) {
+      lines.push({ text: "", font, color, align, lineHeight });
+      return;
+    }
+
+    ctx.font = font;
+    const wrapped = wrapText(ctx, text, maxTextWidth);
+    wrapped.forEach((part, partIndex) => {
+      lines.push({
+        text: part,
+        font,
+        color,
+        align,
+        lineHeight: partIndex === 0 ? lineHeight : 26,
+      });
+    });
+  });
 
   const height =
     PADDING_Y * 2 + lines.reduce((sum, line) => sum + line.lineHeight, 0);
@@ -101,7 +80,6 @@ function drawShareCard(payload: SharePayload): Promise<Blob> {
   ctx.strokeStyle = "#171717";
   ctx.lineWidth = 2;
   ctx.strokeRect(1, 1, WIDTH - 2, height - 2);
-  ctx.textAlign = "center";
   ctx.textBaseline = "top";
 
   let y = PADDING_Y;
@@ -109,7 +87,9 @@ function drawShareCard(payload: SharePayload): Promise<Blob> {
     if (line.text) {
       ctx.font = line.font;
       ctx.fillStyle = line.color;
-      ctx.fillText(fitText(ctx, line.text, maxTextWidth), WIDTH / 2, y);
+      ctx.textAlign = line.align;
+      const x = line.align === "center" ? WIDTH / 2 : PADDING_X;
+      ctx.fillText(line.text, x, y);
     }
     y += line.lineHeight;
   }
@@ -125,23 +105,50 @@ function drawShareCard(payload: SharePayload): Promise<Blob> {
   });
 }
 
-function fitText(
+function wrapText(
   ctx: CanvasRenderingContext2D,
   text: string,
   maxWidth: number,
-): string {
-  if (ctx.measureText(text).width <= maxWidth) {
-    return text;
+): string[] {
+  const words = text.split(/\s+/).filter((word) => word.length > 0);
+  const lines: string[] = [];
+  let current = "";
+
+  const pushLongWord = (word: string) => {
+    let chunk = "";
+    for (const char of word) {
+      const next = `${chunk}${char}`;
+      if (ctx.measureText(next).width <= maxWidth) {
+        chunk = next;
+      } else {
+        if (chunk) {
+          lines.push(chunk);
+        }
+        chunk = char;
+      }
+    }
+    current = chunk;
+  };
+
+  for (const word of words) {
+    const next = current ? `${current} ${word}` : word;
+    if (ctx.measureText(next).width <= maxWidth) {
+      current = next;
+      continue;
+    }
+    if (current) {
+      lines.push(current);
+      current = "";
+    }
+    if (ctx.measureText(word).width <= maxWidth) {
+      current = word;
+    } else {
+      pushLongWord(word);
+    }
   }
 
-  const ellipsis = "…";
-  let end = text.length;
-  while (
-    end > 0 &&
-    ctx.measureText(`${text.slice(0, end)}${ellipsis}`).width > maxWidth
-  ) {
-    end -= 1;
+  if (current) {
+    lines.push(current);
   }
-
-  return `${text.slice(0, end)}${ellipsis}`;
+  return lines.length > 0 ? lines : [text];
 }

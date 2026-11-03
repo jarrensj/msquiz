@@ -1,59 +1,54 @@
 "use client";
 
-import { useId, useState } from "react";
+import type { Difficulty } from "./questions";
 
 export default function Question({
   question,
-  answer,
-  unit,
+  difficulty,
   options,
-  onGraded,
+  selected,
+  onSelect,
 }: {
   question: string;
-  answer: number;
-  unit: string;
-  options: readonly number[];
-  onGraded?: (correct: boolean) => void;
+  difficulty: Difficulty;
+  options: readonly string[];
+  selected?: string;
+  onSelect?: (option: string, viaKeyboard: boolean) => void;
 }) {
-  const answerName = useId();
-  const [result, setResult] = useState<"correct" | "incorrect" | null>(null);
-
   return (
-    <form
-      className="flex flex-col items-center gap-2"
-      onSubmit={(event) => {
-        event.preventDefault();
-        const guess = Number(
-          new FormData(event.currentTarget).get(answerName),
-        );
-        const correct = guess === answer;
-        setResult(correct ? "correct" : "incorrect");
-        onGraded?.(correct);
-      }}
-    >
-      <fieldset className="flex flex-col items-center gap-2">
-        <legend className="text-center">{question}</legend>
-        <div className="flex gap-3">
-          {options.map((option) => (
-            <label key={option} className="flex items-center gap-1">
-              <input
-                type="radio"
-                name={answerName}
-                value={option}
-                required
-              />
-              {option} {unit}
-            </label>
-          ))}
-        </div>
-        <button type="submit" className="border px-2">
-          Check
-        </button>
-      </fieldset>
-      <p aria-live="polite">
-        {result === "correct" && `Correct! It's ${answer} ${unit}.`}
-        {result === "incorrect" && "Not quite, try again."}
-      </p>
-    </form>
+    <div className="flex flex-col gap-3">
+      <p className="text-xs font-medium capitalize opacity-70">{difficulty}</p>
+      <h2
+        tabIndex={-1}
+        className="text-left text-base font-medium break-words outline-offset-4"
+      >
+        {question}
+      </h2>
+      <div className="flex flex-col gap-2" role="group" aria-label="Answers">
+        {options.map((option) => {
+          const isSelected = option === selected;
+          return (
+            <button
+              key={option}
+              type="button"
+              aria-pressed={isSelected}
+              tabIndex={onSelect ? undefined : -1}
+              onClick={
+                onSelect
+                  ? (event) => onSelect(option, event.detail === 0)
+                  : undefined
+              }
+              className={`w-full border px-3 py-2 text-left break-words ${
+                isSelected
+                  ? "bg-foreground/10 font-medium ring-2 ring-foreground ring-inset"
+                  : ""
+              }`}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
