@@ -7,11 +7,13 @@ export default function Question({
   answer,
   unit,
   options,
+  onGraded,
 }: {
   question: string;
   answer: number;
   unit: string;
-  options: number[];
+  options: readonly number[];
+  onGraded?: (correct: boolean) => void;
 }) {
   const answerName = useId();
   const [result, setResult] = useState<"correct" | "incorrect" | null>(null);
@@ -24,7 +26,9 @@ export default function Question({
         const guess = Number(
           new FormData(event.currentTarget).get(answerName),
         );
-        setResult(guess === answer ? "correct" : "incorrect");
+        const correct = guess === answer;
+        setResult(correct ? "correct" : "incorrect");
+        onGraded?.(correct);
       }}
     >
       <fieldset className="flex flex-col items-center gap-2">
