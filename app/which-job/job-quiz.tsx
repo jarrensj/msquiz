@@ -38,6 +38,12 @@ const questions: Question[] = [
     ],
     unweighted: "No, this is not a factor to me",
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt:
+      "Do you want to have expensive equips or a competitive market for your build?",
+    choices: ["Expensive equips", "Competitive market", "Not a factor"],
+  },
 ];
 
 const weights = ["Normal", "A lot", "Must have"];
