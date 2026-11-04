@@ -44,6 +44,11 @@ const questions: Question[] = [
       "Do you want to have expensive equips or a competitive market for your build?",
     choices: ["Expensive equips", "Competitive market", "Not a factor"],
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt: "Do you enjoy jumping around and attacking?",
+    choices: ["Yes", "No", "Not a factor"],
+  },
 ];
 
 const weights = ["Normal", "A lot", "Must have"];
