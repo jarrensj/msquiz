@@ -49,6 +49,11 @@ const questions: Question[] = [
     prompt: "Do you enjoy jumping around and attacking?",
     choices: ["Yes", "No", "Not a factor"],
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt: "Do you like flashy animations?",
+    choices: ["Yes", "No", "Not a factor"],
+  },
 ];
 
 const weights = ["Normal", "A lot", "Must have"];
