@@ -28,6 +28,11 @@ const questions = [
       "No, this is not a factor to me",
     ],
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt: "Do you want to use a one-handed or two-handed weapon?",
+    choices: ["One-handed", "Two-handed", "Not a factor"],
+  },
 ];
 
 // TODO: Add the remaining questions and turn the answers into a job result.
