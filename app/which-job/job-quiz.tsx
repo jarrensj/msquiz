@@ -26,6 +26,12 @@ const questions: Question[] = [
     showIf: { prompt: meleeOrRange, choice: "Melee" },
   },
   {
+    prompt: "Do you wanna throw stars or do you like bows?",
+    choices: ["Throw stars", "Bows", "Not a factor"],
+    unweighted: "Not a factor",
+    showIf: { prompt: meleeOrRange, choice: "Range" },
+  },
+  {
     prompt:
       "Do you want to do high single target damage or do you enjoy battling mobs?",
     choices: ["Single target", "Battling mobs"],
