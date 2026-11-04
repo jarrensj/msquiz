@@ -14,11 +14,11 @@ const questions = [
   },
   {
     prompt: "Is mobility important to you?",
-    choices: ["Yes", "No"],
+    choices: ["Yes", "No", "Not a factor"],
   },
   {
     prompt: "Do you enjoy min-maxing?",
-    choices: ["Yes", "No"],
+    choices: ["Yes", "No", "Not a factor"],
   },
   {
     prompt: "Is the popularity of the class a factor?",
