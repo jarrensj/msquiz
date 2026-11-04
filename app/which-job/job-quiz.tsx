@@ -18,6 +18,13 @@ const questions: Question[] = [
     prompt: meleeOrRange,
     choices: ["Melee", "Range"],
   },
+  // Swords and spears point to warrior, daggers to bandit.
+  {
+    prompt: "Do you like swords or spears?",
+    choices: ["Swords", "Spears", "Neither, I like daggers", "Not a factor"],
+    unweighted: "Not a factor",
+    showIf: { prompt: meleeOrRange, choice: "Melee" },
+  },
   {
     prompt: "Do you wanna throw stars or do you like bows?",
     choices: ["Throw stars", "Bows", "Not a factor"],
