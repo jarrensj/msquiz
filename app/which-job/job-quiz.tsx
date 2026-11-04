@@ -28,6 +28,11 @@ const questions = [
       "No, this is not a factor to me",
     ],
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt: "Do you enjoy jumping around and attacking?",
+    choices: ["Yes", "No", "Not a factor"],
+  },
 ];
 
 // TODO: Add the remaining questions and turn the answers into a job result.
