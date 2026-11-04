@@ -59,6 +59,11 @@ const questions: Question[] = [
     prompt: "Do you like wizards or the wizard aesthetic?",
     choices: ["Yes", "No", "Not a factor"],
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt: "Do you want to use a one-handed or two-handed weapon?",
+    choices: ["One-handed", "Two-handed", "Not a factor"],
+  },
 ];
 
 const weights = ["Normal", "A lot", "Must have"];
