@@ -28,6 +28,12 @@ const questions = [
       "No, this is not a factor to me",
     ],
   },
+  // TODO: Once answer weights land (#16), add unweighted: "Not a factor" here.
+  {
+    prompt:
+      "Do you want to have expensive equips or a competitive market for your build?",
+    choices: ["Expensive equips", "Competitive market", "Not a factor"],
+  },
 ];
 
 // TODO: Add the remaining questions and turn the answers into a job result.
