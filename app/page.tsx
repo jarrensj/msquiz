@@ -1,25 +1,10 @@
 import Quiz from "./quiz";
 
-const questions = [
-  {
-    question: "How much EXP does a Green Slime give?",
-    answer: 12,
-    unit: "EXP",
-    options: [8, 10, 12, 14, 15],
-  },
-  {
-    question: "How much EXP does a Zombie Mushroom give?",
-    answer: 45,
-    unit: "EXP",
-    options: [35, 40, 41, 45, 50],
-  },
-];
-
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-4">
-      <h1>msquiz</h1>
-      <Quiz questions={questions} />
+    <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-4 px-4 py-8">
+      <h1 className="text-center text-2xl font-semibold">msquiz</h1>
+      <Quiz />
     </main>
   );
 }

@@ -1,41 +1,54 @@
-export type QuestionData = {
-  question: string;
-  answer: number;
-  unit: string;
-  options: number[];
-};
+"use client";
+
+import type { Difficulty } from "./questions";
 
 export default function Question({
   question,
-  answer,
-  unit,
+  difficulty,
   options,
-  guess,
-}: QuestionData & { guess?: number }) {
+  selected,
+  onSelect,
+}: {
+  question: string;
+  difficulty: Difficulty;
+  options: readonly string[];
+  selected?: string;
+  onSelect?: (option: string, viaKeyboard: boolean) => void;
+}) {
   return (
-    <fieldset
-      disabled={guess !== undefined}
-      className="flex flex-col items-center gap-2"
-    >
-      <legend className="text-center">{question}</legend>
-      <div className="flex gap-3">
-        {options.map((option) => (
-          // Bold because browsers barely mark the checked radio once it's disabled.
-          <label
-            key={option}
-            className={`flex items-center gap-1 ${guess === option ? "font-bold" : ""}`}
-          >
-            <input type="radio" name={question} value={option} required />
-            {option} {unit}
-          </label>
-        ))}
+    <div className="flex flex-col gap-3">
+      <p className="text-xs font-medium capitalize opacity-70">{difficulty}</p>
+      <h2
+        tabIndex={-1}
+        className="text-left text-base font-medium break-words outline-offset-4"
+      >
+        {question}
+      </h2>
+      <div className="flex flex-col gap-2" role="group" aria-label="Answers">
+        {options.map((option) => {
+          const isSelected = option === selected;
+          return (
+            <button
+              key={option}
+              type="button"
+              aria-pressed={isSelected}
+              tabIndex={onSelect ? undefined : -1}
+              onClick={
+                onSelect
+                  ? (event) => onSelect(option, event.detail === 0)
+                  : undefined
+              }
+              className={`w-full border px-3 py-2 text-left break-words ${
+                isSelected
+                  ? "bg-foreground/10 font-medium ring-2 ring-foreground ring-inset"
+                  : ""
+              }`}
+            >
+              {option}
+            </button>
+          );
+        })}
       </div>
-      <p className="min-h-6 text-center">
-        {guess === answer && `Correct! It's ${answer} ${unit}.`}
-        {guess !== undefined &&
-          guess !== answer &&
-          `Not quite. It's ${answer} ${unit}.`}
-      </p>
-    </fieldset>
+    </div>
   );
 }

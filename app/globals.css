@@ -23,3 +23,81 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+@keyframes deck-forward-in {
+  from {
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes deck-forward-out {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(16px) scale(0.94);
+    opacity: 0;
+  }
+}
+
+@keyframes deck-back-in {
+  from {
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes deck-back-out {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-10px) scale(1.02);
+    opacity: 0;
+  }
+}
+
+@keyframes deck-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.deck-forward-in {
+  animation: deck-forward-in 320ms ease;
+}
+
+.deck-forward-out {
+  animation: deck-forward-out 320ms ease forwards;
+}
+
+.deck-back-in {
+  animation: deck-back-in 320ms ease;
+}
+
+.deck-back-out {
+  animation: deck-back-out 320ms ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-forward-in,
+  .deck-back-in {
+    animation: deck-fade-in 150ms ease;
+  }
+
+  .deck-forward-out,
+  .deck-back-out {
+    animation: none;
+    opacity: 0;
+  }
+}
