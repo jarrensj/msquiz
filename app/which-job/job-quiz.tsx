@@ -2,17 +2,28 @@
 
 import { useState } from "react";
 
+const meleeOrRange = "Do you wanna play melee or range?";
+
 type Question = {
   prompt: string;
   choices: string[];
   // The answer that means "this doesn't matter to me", so it can't be weighted.
   unweighted?: string;
+  // Only shown, and only counted, while this earlier answer is picked.
+  showIf?: { prompt: string; choice: string };
 };
 
 const questions: Question[] = [
   {
-    prompt: "Do you wanna play melee or range?",
+    prompt: meleeOrRange,
     choices: ["Melee", "Range"],
+  },
+  // Swords and spears point to warrior, daggers to bandit.
+  {
+    prompt: "Do you like swords or spears?",
+    choices: ["Swords", "Spears", "Neither, I like daggers", "Not a factor"],
+    unweighted: "Not a factor",
+    showIf: { prompt: meleeOrRange, choice: "Melee" },
   },
   {
     prompt:
@@ -76,14 +87,19 @@ export default function JobQuiz() {
   const [answers, setAnswers] = useState<
     Record<string, { choice: string; weight: string }>
   >({});
-  const finished = questions.every(({ prompt }) => answers[prompt]);
-  const hasMustHave = Object.values(answers).some(
-    ({ weight }) => weight === "Must have",
+  // A follow-up only counts while its earlier answer is picked. Its own answer
+  // is kept in case they switch back, so only read answers from these questions.
+  const shown = questions.filter(
+    ({ showIf }) => !showIf || answers[showIf.prompt]?.choice === showIf.choice,
+  );
+  const finished = shown.every(({ prompt }) => answers[prompt]);
+  const hasMustHave = shown.some(
+    ({ prompt }) => answers[prompt]?.weight === "Must have",
   );
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {questions.map(({ prompt, choices, unweighted }) => {
+    <div aria-live="polite" className="flex flex-col items-center gap-4">
+      {shown.map(({ prompt, choices, unweighted }) => {
         const answer = answers[prompt];
 
         return (
@@ -139,7 +155,7 @@ export default function JobQuiz() {
           </fieldset>
         );
       })}
-      <p aria-live="polite" className="min-h-24 text-center">
+      <p className="min-h-24 text-center">
         {finished && "That's all for now. Job suggestions coming soon."}
         {finished &&
           hasMustHave &&
