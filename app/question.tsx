@@ -18,7 +18,7 @@ export default function Question({
       className="flex flex-col items-center gap-2"
     >
       <legend className="text-center">{question}</legend>
-      <div className="flex gap-3">
+      <div className="flex flex-wrap justify-center gap-3">
         {options.map((option) => (
           // Bold because browsers barely mark the checked radio once it's disabled.
           <label
