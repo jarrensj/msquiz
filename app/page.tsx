@@ -19,6 +19,12 @@ const questions = [
     unit: "EXP",
     options: [39, 43, 46, 50, 54],
   },
+  {
+    question: "How much does a Yellow Thief Hood sell back to an NPC for?",
+    answer: 900,
+    unit: "mesos",
+    options: [500, 700, 800, 900, 1200],
+  },
 ];
 
 export default function Home() {
