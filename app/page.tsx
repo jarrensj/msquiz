@@ -35,7 +35,7 @@ const questions = [
     question: "How much does a Tree Branch sell back to an NPC for?",
     answer: 5,
     unit: "mesos",
-    options: [2, 5, 8, 10, 15],
+    options: [3, 4, 5, 6, 7],
   },
   {
     question: "How much does a Green Mushroom Cap sell back to an NPC for?",
