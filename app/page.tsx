@@ -100,7 +100,7 @@ const questions: QuestionData[] = [
     question: "How much does a Bronze Koif sell back to an NPC for?",
     answer: 600,
     unit: "mesos",
-    options: [400, 600, 750, 900, 1200],
+    options: [400, 450, 500, 600, 700],
   },
 ];
 
