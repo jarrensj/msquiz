@@ -37,6 +37,12 @@ const questions = [
     unit: "mesos",
     options: [2, 5, 8, 10, 15],
   },
+  {
+    question: "How much does a Green Mushroom Cap sell back to an NPC for?",
+    answer: 14,
+    unit: "mesos",
+    options: [6, 8, 10, 14, 18],
+  },
 ];
 
 export default function Home() {
