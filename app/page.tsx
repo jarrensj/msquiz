@@ -29,7 +29,7 @@ const questions = [
     question: "How much do Work Gloves sell back to an NPC for?",
     answer: 1200,
     unit: "mesos",
-    options: [1000, 1200, 1500, 1800, 2400],
+    options: [800, 900, 1000, 1200, 1500],
   },
   {
     question: "How much does a Tree Branch sell back to an NPC for?",
