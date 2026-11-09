@@ -73,6 +73,12 @@ const questions = [
     unit: "mesos",
     options: [50, 80, 100, 150, 200],
   },
+  {
+    question: "How much does a Diamond Ore sell back to an NPC for?",
+    answer: 240,
+    unit: "mesos",
+    options: [120, 180, 200, 240, 300],
+  },
 ];
 
 export default function Home() {
