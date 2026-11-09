@@ -49,6 +49,12 @@ const questions = [
     unit: "mesos",
     options: [5, 10, 15, 20, 30],
   },
+  {
+    question: "How much does a Gold Ore sell back to an NPC for?",
+    answer: 60,
+    unit: "mesos",
+    options: [40, 60, 80, 100, 150],
+  },
 ];
 
 export default function Home() {
