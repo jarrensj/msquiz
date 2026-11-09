@@ -31,6 +31,12 @@ const questions = [
     unit: "mesos",
     options: [1000, 1200, 1500, 1800, 2400],
   },
+  {
+    question: "How much does a Tree Branch sell back to an NPC for?",
+    answer: 5,
+    unit: "mesos",
+    options: [2, 5, 8, 10, 15],
+  },
 ];
 
 export default function Home() {
