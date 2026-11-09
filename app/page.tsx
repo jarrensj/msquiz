@@ -51,7 +51,7 @@ const questions: QuestionData[] = [
     question: "How much does a Green Mushroom Cap sell back to an NPC for?",
     answer: 14,
     unit: "mesos",
-    options: [6, 8, 10, 14, 18],
+    options: [8, 10, 12, 14, 16],
   },
   {
     category: "loot",
