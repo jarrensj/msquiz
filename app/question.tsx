@@ -20,17 +20,20 @@ export default function Question({
   unit,
   options,
   guess,
-}: QuestionData & { guess?: number }) {
+  showCategory,
+}: QuestionData & { guess?: number; showCategory: boolean }) {
   return (
     <fieldset
       disabled={guess !== undefined}
       className="flex flex-col items-center gap-2"
     >
       <legend className="text-center">
-        <span className="block text-xs tracking-wide uppercase opacity-70">
-          {categoryNames[category]}
-          <span className="sr-only">:</span>
-        </span>
+        {showCategory && (
+          <span className="block text-xs tracking-wide uppercase opacity-70">
+            {categoryNames[category]}
+            <span className="sr-only">:</span>
+          </span>
+        )}
         {question}
       </legend>
       <div className="flex flex-wrap justify-center gap-3">

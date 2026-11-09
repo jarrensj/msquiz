@@ -5,6 +5,9 @@ import Question, { type QuestionData } from "./question";
 
 export default function Quiz({ questions }: { questions: QuestionData[] }) {
   const [guesses, setGuesses] = useState<number[] | null>(null);
+  // In a one-category quiz every label would say the same thing.
+  const showCategory =
+    new Set(questions.map(({ category }) => category)).size > 1;
 
   return (
     <form
@@ -20,6 +23,7 @@ export default function Quiz({ questions }: { questions: QuestionData[] }) {
           key={question.question}
           {...question}
           guess={guesses?.[index]}
+          showCategory={showCategory}
         />
       ))}
       <div aria-live="polite" className="min-h-7">
