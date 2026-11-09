@@ -25,6 +25,12 @@ const questions = [
     unit: "mesos",
     options: [500, 700, 800, 900, 1200],
   },
+  {
+    question: "How much do Work Gloves sell back to an NPC for?",
+    answer: 1200,
+    unit: "mesos",
+    options: [1000, 1200, 1500, 1800, 2400],
+  },
 ];
 
 export default function Home() {
