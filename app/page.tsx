@@ -47,7 +47,7 @@ const questions = [
     question: "How much does a Bronze Ore sell back to an NPC for?",
     answer: 20,
     unit: "mesos",
-    options: [5, 10, 15, 20, 30],
+    options: [15, 20, 25, 30, 40],
   },
   {
     question: "How much does a Gold Ore sell back to an NPC for?",
