@@ -79,7 +79,7 @@ const questions: QuestionData[] = [
     question: "How much does one Squishy Liquid sell back to an NPC for?",
     answer: 6,
     unit: "mesos",
-    options: [3, 4, 6, 8, 10],
+    options: [3, 4, 5, 6, 7],
   },
   {
     category: "loot",
