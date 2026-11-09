@@ -55,6 +55,12 @@ const questions = [
     unit: "mesos",
     options: [40, 60, 80, 100, 150],
   },
+  {
+    question: "How much does a Sapphire Ore sell back to an NPC for?",
+    answer: 120,
+    unit: "mesos",
+    options: [60, 90, 100, 120, 150],
+  },
 ];
 
 export default function Home() {
