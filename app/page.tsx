@@ -13,6 +13,78 @@ const questions = [
     unit: "EXP",
     options: [35, 40, 41, 45, 50],
   },
+  {
+    question: "How much EXP does a Dark Axe Stump give?",
+    answer: 43,
+    unit: "EXP",
+    options: [39, 43, 46, 50, 54],
+  },
+  {
+    question: "How much does a Yellow Thief Hood sell back to an NPC for?",
+    answer: 900,
+    unit: "mesos",
+    options: [500, 700, 800, 900, 1200],
+  },
+  {
+    question: "How much do Work Gloves sell back to an NPC for?",
+    answer: 1200,
+    unit: "mesos",
+    options: [800, 900, 1000, 1200, 1500],
+  },
+  {
+    question: "How much does a Tree Branch sell back to an NPC for?",
+    answer: 5,
+    unit: "mesos",
+    options: [3, 4, 5, 6, 7],
+  },
+  {
+    question: "How much does a Green Mushroom Cap sell back to an NPC for?",
+    answer: 14,
+    unit: "mesos",
+    options: [8, 10, 12, 14, 16],
+  },
+  {
+    question: "How much does a Bronze Ore sell back to an NPC for?",
+    answer: 20,
+    unit: "mesos",
+    options: [15, 20, 25, 30, 40],
+  },
+  {
+    question: "How much does a Gold Ore sell back to an NPC for?",
+    answer: 60,
+    unit: "mesos",
+    options: [40, 60, 80, 100, 150],
+  },
+  {
+    question: "How much does a Sapphire Ore sell back to an NPC for?",
+    answer: 120,
+    unit: "mesos",
+    options: [60, 90, 100, 120, 150],
+  },
+  {
+    question: "How much does one Squishy Liquid sell back to an NPC for?",
+    answer: 6,
+    unit: "mesos",
+    options: [3, 4, 5, 6, 7],
+  },
+  {
+    question: "How much does a Bronze Ingot sell back to an NPC for?",
+    answer: 100,
+    unit: "mesos",
+    options: [50, 80, 100, 150, 200],
+  },
+  {
+    question: "How much does a Diamond Ore sell back to an NPC for?",
+    answer: 240,
+    unit: "mesos",
+    options: [120, 180, 200, 240, 300],
+  },
+  {
+    question: "How much does a Bronze Koif sell back to an NPC for?",
+    answer: 600,
+    unit: "mesos",
+    options: [400, 450, 500, 600, 700],
+  },
 ];
 
 export default function Home() {
