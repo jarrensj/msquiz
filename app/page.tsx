@@ -37,14 +37,14 @@ const questions: QuestionData[] = [
     question: "How much do Work Gloves sell back to an NPC for?",
     answer: 1200,
     unit: "mesos",
-    options: [1000, 1200, 1500, 1800, 2400],
+    options: [800, 900, 1000, 1200, 1500],
   },
   {
     category: "loot",
     question: "How much does a Tree Branch sell back to an NPC for?",
     answer: 5,
     unit: "mesos",
-    options: [2, 5, 8, 10, 15],
+    options: [3, 4, 5, 6, 7],
   },
   {
     category: "loot",
