@@ -1,4 +1,12 @@
+export const categoryNames = {
+  "monster-exp": "Monster EXP",
+  loot: "Loot",
+};
+
+export type Category = keyof typeof categoryNames;
+
 export type QuestionData = {
+  category: Category;
   question: string;
   answer: number;
   unit: string;
@@ -6,6 +14,7 @@ export type QuestionData = {
 };
 
 export default function Question({
+  category,
   question,
   answer,
   unit,
@@ -17,7 +26,13 @@ export default function Question({
       disabled={guess !== undefined}
       className="flex flex-col items-center gap-2"
     >
-      <legend className="text-center">{question}</legend>
+      <legend className="text-center">
+        <span className="block text-xs tracking-wide uppercase opacity-70">
+          {categoryNames[category]}
+          <span className="sr-only">:</span>
+        </span>
+        {question}
+      </legend>
       <div className="flex flex-wrap justify-center gap-3">
         {options.map((option) => (
           // Bold because browsers barely mark the checked radio once it's disabled.
