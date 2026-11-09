@@ -67,6 +67,12 @@ const questions = [
     unit: "mesos",
     options: [3, 4, 6, 8, 10],
   },
+  {
+    question: "How much does a Bronze Ingot sell back to an NPC for?",
+    answer: 100,
+    unit: "mesos",
+    options: [50, 80, 100, 150, 200],
+  },
 ];
 
 export default function Home() {
