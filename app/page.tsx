@@ -13,6 +13,12 @@ const questions = [
     unit: "EXP",
     options: [35, 40, 41, 45, 50],
   },
+  {
+    question: "How much EXP does a Dark Axe Stump give?",
+    answer: 43,
+    unit: "EXP",
+    options: [39, 43, 46, 50, 54],
+  },
 ];
 
 export default function Home() {
