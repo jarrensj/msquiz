@@ -79,6 +79,12 @@ const questions = [
     unit: "mesos",
     options: [120, 180, 200, 240, 300],
   },
+  {
+    question: "How much does a Bronze Koif sell back to an NPC for?",
+    answer: 600,
+    unit: "mesos",
+    options: [400, 600, 750, 900, 1200],
+  },
 ];
 
 export default function Home() {
